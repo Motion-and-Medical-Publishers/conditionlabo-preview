@@ -21,19 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* --- Lite Map (click-to-load) --- */
-  const liteMap = document.getElementById('liteMap');
-  if (liteMap) {
-    liteMap.addEventListener('click', () => {
-      const iframe = document.createElement('iframe');
-      iframe.src = 'https://maps.google.com/maps?q=%E3%82%B3%E3%83%B3%E3%83%87%E3%82%A3%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%A9%E3%83%9C&ll=35.5707655,139.5534988&hl=ja&z=17&output=embed';
-      iframe.style.cssText = 'width:100%;height:100%;min-height:500px;border:0;';
-      iframe.loading = 'lazy';
-      iframe.title = 'コンディション・ラボ Google Maps';
-      liteMap.replaceWith(iframe);
-    });
-  }
-
   /* --- Header scroll --- */
   const header = document.getElementById('header');
   window.addEventListener('scroll', () => {
