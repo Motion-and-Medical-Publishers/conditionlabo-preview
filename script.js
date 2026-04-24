@@ -196,10 +196,19 @@ document.addEventListener('DOMContentLoaded', () => {
         'コンディション・ラボ 入職',
         'GOTOクリニック 非常勤理学療法士'
       ],
-      books: [
-        '「臨床実習生・若手PTのための理学療法実践ナビ」変形股関節症に対する骨切り術（RAO）術後のリハビリテーション 2022/6/15',
+      authored: [
+        '「減らせ！贅肉習慣〜理学療法士が教えるリバウンドゼロダイエット〜」',
+        '「100歳でも自分の足で歩けるひざの整え方」',
+        '「臨床実習生および若手PTのための理学療法実践ナビ　運動器疾患編」'
+      ],
+      edited: [
+        '「一流の臨床思考」',
+        '「臨床に役立つPNF」',
+        '「徒手療法ガイドブック　腰部・殿部・股関節・大腿 編」',
+        '「徒手療法ガイドブックⅡ　膝関節・下腿・足関節・足部 編」',
         '「1日3分自触習慣！触診ドリル 下肢・体幹編」',
-        '「園部俊晴の臨床『徒手療法ガイドブック』腰部・殿部・股関節・大腿編」'
+        '「園部式　歩行改善メソッド」',
+        '「もう人任せにしない！腰痛の性格を見つけて治す！セルフマネジメント術！」'
       ]
     },
     wakabayashi: {
@@ -299,6 +308,18 @@ document.addEventListener('DOMContentLoaded', () => {
       html += `<h4 class="staff-modal__section-title">PUBLICATIONS</h4>`;
       html += '<ul class="staff-modal__books">' +
         d.books.map(b => `<li>${b}</li>`).join('') + '</ul>';
+    }
+
+    if (d.authored && d.authored.length) {
+      html += `<h4 class="staff-modal__section-title">著書</h4>`;
+      html += '<ul class="staff-modal__books">' +
+        d.authored.map(b => `<li>${b}</li>`).join('') + '</ul>';
+    }
+
+    if (d.edited && d.edited.length) {
+      html += `<h4 class="staff-modal__section-title">編集</h4>`;
+      html += '<ul class="staff-modal__books">' +
+        d.edited.map(b => `<li>${b}</li>`).join('') + '</ul>';
     }
 
     document.getElementById('staffModalContent').innerHTML = html;
