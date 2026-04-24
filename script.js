@@ -1,0 +1,602 @@
+/* ========================================
+   Condition Labo — Split Cinematic Script
+   ======================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* --- Lite YouTube (click-to-load) --- */
+  document.querySelectorAll('.lite-youtube').forEach(el => {
+    const id = el.dataset.id;
+    // Set thumbnail background
+    el.style.backgroundImage = `url("https://i.ytimg.com/vi/${id}/hqdefault.jpg")`;
+    el.addEventListener('click', () => {
+      const title = el.dataset.title || 'YouTube video';
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
+      el.replaceWith(iframe);
+    });
+  });
+
+  /* --- Lite Map (click-to-load) --- */
+  const liteMap = document.getElementById('liteMap');
+  if (liteMap) {
+    liteMap.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://maps.google.com/maps?q=%E3%82%B3%E3%83%B3%E3%83%87%E3%82%A3%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%A9%E3%83%9C&ll=35.5707655,139.5534988&hl=ja&z=17&output=embed';
+      iframe.style.cssText = 'width:100%;height:100%;min-height:500px;border:0;';
+      iframe.loading = 'lazy';
+      iframe.title = 'コンディション・ラボ Google Maps';
+      liteMap.replaceWith(iframe);
+    });
+  }
+
+  /* --- Header scroll --- */
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  /* --- Hamburger menu --- */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const mobileBackdrop = document.getElementById('mobileBackdrop');
+
+  if (hamburger && mobileNav) {
+    const closeMenu = () => {
+      hamburger.classList.remove('active');
+      mobileNav.classList.remove('active');
+      if (mobileBackdrop) mobileBackdrop.classList.remove('active');
+    };
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileNav.classList.contains('active');
+      if (isOpen) { closeMenu(); } else {
+        hamburger.classList.add('active');
+        mobileNav.classList.add('active');
+        if (mobileBackdrop) mobileBackdrop.classList.add('active');
+      }
+    });
+    if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeMenu);
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
+
+  /* --- Fade-in on scroll --- */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  /* --- Count-up animation for stats --- */
+  const countEls = document.querySelectorAll('[data-count]');
+  if (countEls.length) {
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-count'), 10);
+          const duration = 1500;
+          const start = performance.now();
+
+          function update(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(target * eased).toLocaleString();
+            if (progress < 1) requestAnimationFrame(update);
+          }
+          requestAnimationFrame(update);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    countEls.forEach(el => countObserver.observe(el));
+  }
+
+  /* --- Staff Modal --- */
+  const staffData = {
+    sonobe: {
+      name: '園部 俊晴',
+      nameEn: 'Toshiharu Sonobe',
+      photo: './images/images20251021163054.jpg',
+      meta: {
+        '出身': '神奈川県横浜市',
+        '性格': '明るい努力家、働きもの',
+        '趣味': '料理、ゴルフ、釣り、登山、マラソン（フルマラソン10回完走）、読書（ワンピース愛好家）、スキー、ラーメン（Rahaラーメンクラブの部長）、温泉（全県名湯制覇）、妻と会話すること',
+        '信条': '両親が喜んでくれること、我が子に誇れること、妻をイタリア人のごとく大切にすること、社会に貢献できること、自分のゴールに向かっていること、これらを満たす生き方'
+      },
+      greeting: 'はじめまして、所長の園部俊晴です。コンディション・ラボでは痛みや様々な症状を持つ患者様などを一人でも多くサポートしたいです。長年、最先端の治療を行っている病院で働いてきた経験を活かして、そこで得た知識・技術を元に最新の研究成果などを取り入れながら、オーダーメイドのインソールを用いてよりよい生活ができるように手助けをさせていただきます。',
+      bio: '膝・足・股関節など、下肢全般の領域の専門家であるとともに、故・入谷誠の一番弟子。一般人からスポーツ選手まで幅広いレベルの患者を対象とし、多くの一流アスリートや著名人などの療術を手掛ける。身体の運動連鎖や歩行に関する研究および文献が多数あり、著書も多い。新聞、雑誌、テレビなどのメディアにも多く取り上げられる。また、運動連鎖を応用した概念は、専門家からの評価が高く全国各地で講演活動を行う。',
+      qualifications: '理学療法士、コンディション・ラボ所長、運動と医学の出版社 代表取締役社長、臨床家のための運動器研究会代表、身体運動学的アプローチ研究会代表理事、入谷式足底板インストラクター、実践リハビリ研究会学術顧問、文京学院大学保健医療科学研究科（大学院）特別講師、昭和大学保健医療学部理学療法科客員講師',
+      career: [
+        '平成3年4月: 関東労災病院リハビリテーション科勤務',
+        '平成3年: 理学療法士（国家資格）取得',
+        '平成3年より: 入谷誠の師事のもと入谷式インソール（足底板）を学ぶ。以後、関東労災病院で26年間勤務',
+        '平成29年3月: 26年間勤務した関東労災病院を退職',
+        '平成29年4月: コンディション・ラボを開業。同時に(株)運動と医学の出版社 代表取締役社長に就任'
+      ],
+      books: [
+        '「ねこ背病 放置する人から老いていく」運動と医学の出版社 2025/8',
+        '「健康寿命のためのからだのトリセツ」2025/5',
+        '「徒手療法ガイドブック」2024/12',
+        '「園部式脚の痛み・しびれ改善メソッド」2024/10',
+        '「ひざ痛探偵 謎はすべて解けた！」2024/8',
+        '「園部式足底筋膜炎改善メソッド（彩図社）」2024/7',
+        '「園部式首の痛み改善メソッド」2024/6',
+        '「一流の臨床思考」2024/3',
+        '「園部式脊柱管狭窄症改善メソッド（彩図社）」2023/8',
+        '「園部式歩行改善メソッド」2023/4',
+        '「園部式ひざ痛改善メソッド(彩図社)」2023/1',
+        '「スポーツ外傷・障害に対する術後のリハビリテーション改訂第3版」2022/10',
+        '「臀筋ほぐし(PHP研究所)」2022/8',
+        '「園部俊晴の臨床『膝関節』」2021/2',
+        '「入谷誠の理学療法 評価と治療の実際」2020/5',
+        '「つらいひざ痛が1分でよくなる! ひざ下リリース」2019/10',
+        '「お尻の痛み・しびれ 1分でよくなる 最新最強」2020/2',
+        '「リハビリの先生が教える！健康寿命を10年延ばすからだのつくり方」2017/2',
+        '「効果的な文章の書き方 入門講座」2013/3'
+      ]
+    },
+    tsuchiya: {
+      name: '土屋 元明',
+      nameEn: 'Genmei Tsuchiya',
+      photo: './images/images20251021163319.png',
+      meta: {
+        '出身': '神奈川県横須賀市',
+        '性格': '元気で明るい',
+        '肩書き': '動きのこだわりテーション 代表',
+        '趣味': '体について学ぶこと',
+        '信条': '動きの質を高めることは人生の質を高める',
+        '特技': '嫌なことも寝たら忘れられる',
+        '好きな言葉': '人生の目的は幸福を体験する事である'
+      },
+      qualifications: '理学療法士（国家資格）、呼吸療法認定士、Orthomolecular Nutrition Professional、ロコモ予防運動指導士兼講師',
+      career: [
+        '平成20年4月: 医療法人沖縄徳洲会 湘南鎌倉総合病院 リハビリテーション科 入職',
+        '平成26年4月: 医療法人大樹会 ふれあい鎌倉ホスピタル リハビリテーション科 入職',
+        '平成28年5月: 動きのこだわりテーションを開業',
+        '平成31年4月: コンディション・ラボ 非常勤',
+        '平成29年〜令和2年: 日本メディカルフィットネス研究会常任理事'
+      ],
+      books: [
+        '「ひざのねじれをとればひざ痛は治る」2020',
+        '「臨床で結果を出し続ける治療戦略」2021',
+        '「肩と首はもまずにつまんで、ゆらしなさい」2021',
+        '「腰は、もまずにつまめば、腰痛は治る」2022',
+        '「10秒筋膜ほぐし」2023',
+        '「1日90秒、皿をほぐすだけで、ひざ痛は治る!」2024',
+        '「マイナス10歳を手に入れる骨盤メンテ」2025'
+      ]
+    },
+    soma: {
+      name: '相馬 啓太',
+      nameEn: 'Keita Soma',
+      photo: './images/images20251021163631.png',
+      meta: {
+        '出身': '静岡県',
+        '性格': 'とても明るく前向き',
+        '趣味': '釣り',
+        '信条': '社会に貢献する',
+        '特技': '腕相撲',
+        '好きな言葉': '七転び八起き'
+      },
+      qualifications: '理学療法士（国家資格）、小型船舶1級、サウナスパプロフェッショナル',
+      career: [
+        '社会医療法人 青虎会 フジ虎ノ門整形外科病院 入職',
+        'コンディション・ラボ 入職',
+        'GOTOクリニック 非常勤理学療法士'
+      ],
+      books: [
+        '「臨床実習生・若手PTのための理学療法実践ナビ」変形股関節症に対する骨切り術（RAO）術後のリハビリテーション 2022/6/15',
+        '「1日3分自触習慣！触診ドリル 下肢・体幹編」',
+        '「園部俊晴の臨床『徒手療法ガイドブック』腰部・殿部・股関節・大腿編」'
+      ]
+    },
+    wakabayashi: {
+      name: '若林 和希',
+      nameEn: 'Kazuki Wakabayashi',
+      photo: './images/images20251021163855.jpg',
+      meta: {
+        '出身': '神奈川県',
+        '性格': '好奇心旺盛でポジティブ思考',
+        '趣味': 'サーフィン、サウナ',
+        '信条': '謙虚に淡々と物事を遂行する',
+        '特技': '野球、水泳',
+        '好きな言葉': '人間万事塞翁が馬'
+      },
+      qualifications: '理学療法士（国家資格）、医科学修士',
+      career: [
+        '北里大学大学院 医療系研究科 修士課程 卒業',
+        'コンディション・ラボ 入職',
+        'GOTOクリニック 非常勤理学療法士',
+        '過去の非常勤歴: 株式会社Re ambitious R-studio PLUS、ケアーズ訪問看護リハビリテーション相模原南'
+      ],
+      books: [
+        '「1日3分自触習慣！触診ドリル 下肢・体幹編」',
+        '「下肢スポーツリハビリテーション ー関東労災病院モデルー」',
+        '「園部俊晴の臨床『徒手療法ガイドブック』腰部・殿部・股関節・大腿編」'
+      ]
+    },
+    mogi: {
+      name: '茂木 悠太',
+      nameEn: 'Yuta Mogi',
+      photo: './images/images20251112142217.jpg',
+      meta: {
+        '出身': '群馬県高崎市',
+        '性格': '優しい、人情深い',
+        '趣味': '登山、スポーツ観戦、ライブ参加',
+        '信条': '目の前の人の幸せに貢献すること',
+        '特技': '人の良いところを見つけること、諦めないこと',
+        '好きな言葉': '継続は力なり'
+      },
+      qualifications: '理学療法士（国家資格）、住環境コーディネーター2級',
+      career: [
+        '医療法人社団 明芳会 高島平中央総合病院 入職',
+        'コンディション・ラボ 入職',
+        '医療法人社団 明芳会 高島平中央総合病院 非常勤理学療法士'
+      ],
+      books: [
+        '「1日3分自触習慣！触診ドリル 下肢・体幹編」',
+        '「園部俊晴の臨床『徒手療法ガイドブック』腰部・殿部・股関節・大腿編」'
+      ]
+    }
+  };
+
+  const overlay = document.getElementById('staffModalOverlay');
+  const modal = document.getElementById('staffModal');
+  const closeBtn = document.getElementById('staffModalClose');
+
+  function openStaffModal(key) {
+    const d = staffData[key];
+    if (!d) return;
+
+    document.getElementById('staffModalPhoto').innerHTML =
+      `<img src="${d.photo}" alt="${d.name}">`;
+    document.getElementById('staffModalName').textContent = d.name;
+    document.getElementById('staffModalNameEn').textContent = d.nameEn;
+
+    // Meta
+    let metaHtml = '';
+    for (const [k, v] of Object.entries(d.meta)) {
+      metaHtml += `<dt>${k}</dt><dd>${v}</dd>`;
+    }
+    document.getElementById('staffModalMeta').innerHTML = metaHtml;
+
+    // Content
+    let html = '';
+
+    if (d.greeting) {
+      html += `<p class="staff-modal__greeting">${d.greeting}</p>`;
+    }
+
+    if (d.bio) {
+      html += `<h4 class="staff-modal__section-title">ABOUT</h4>`;
+      html += `<p class="staff-modal__bio">${d.bio}</p>`;
+    }
+
+    if (d.qualifications) {
+      html += `<h4 class="staff-modal__section-title">QUALIFICATIONS</h4>`;
+      html += `<p class="staff-modal__qualifications">${d.qualifications}</p>`;
+    }
+
+    if (d.career && d.career.length) {
+      html += `<h4 class="staff-modal__section-title">CAREER</h4>`;
+      html += '<ul class="staff-modal__career">' +
+        d.career.map(c => `<li>${c}</li>`).join('') + '</ul>';
+    }
+
+    if (d.books && d.books.length) {
+      html += `<h4 class="staff-modal__section-title">PUBLICATIONS</h4>`;
+      html += '<ul class="staff-modal__books">' +
+        d.books.map(b => `<li>${b}</li>`).join('') + '</ul>';
+    }
+
+    document.getElementById('staffModalContent').innerHTML = html;
+
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeStaffModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Click handlers
+  document.querySelectorAll('[data-staff]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return; // don't intercept links
+      openStaffModal(el.dataset.staff);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeStaffModal);
+  if (overlay) overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeStaffModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeStaffModal();
+  });
+
+  /* --- Menu Detail Modal --- */
+  const menuData = {
+    insole: {
+      img: './images/images20251022131529.jpg',
+      tag: 'RECOMMEND',
+      title: 'インソール作成',
+      prices: [
+        { label: '初回料', value: '2,200', unit: '円（税込）' },
+        { label: '作成費', value: '20,000', unit: '円（税込）' }
+      ],
+      desc: 'コンディション・ラボでは、来院して頂いたほとんどの患者様に、入谷式インソール（入谷式足底板）を作成致します。インソール（入谷式足底板）はその日のうちにできあがります（約1時間30分程度）。\n\nインソール（入谷式足底板）を作成する他の施設より安価ですが、作っていただければ、たくさんの著名人が訪れる理由を分かって頂けると思います。',
+      includes: [
+        '施術当日に完成（約1時間30分）',
+        '動作分析による完全オーダーメイド',
+        'コンディショニング費用込み',
+        'お手持ちの靴をお持ちください'
+      ],
+      notes: [
+        'インソール作成の場合は１時間の駐車場サービス券をお渡しいたしますのでご利用ください。',
+        '初回料は、初回来院時にのみいただきます。'
+      ]
+    },
+    conditioning: {
+      img: './images/images20251022131233.png',
+      tag: 'MAINTENANCE',
+      title: 'コンディショニング',
+      prices: [
+        { label: '初回料', value: '2,200', unit: '円（税込）' },
+        { label: '施術料', value: '4,180', unit: '円（税込）' }
+      ],
+      desc: 'インソール（入谷式足底板）の調整、運動指導、テーピング指導、ストレッチ、徒手的操作など行い、からだのメンテナンスを行います。\n\nコンディション・ラボでは、たくさん通わせて利益を得るようなことはしません。必要な頻度でからだのメンテナンスを行い、より良いからだの状態を維持できるようにすることを目的としています。\n\n症状がなくなり、状態が安定した患者様は、患者様のご要望に合わせながら、数ヶ月に1回〜年に1回程度のメンテナンスを行なっています。',
+      includes: [
+        'インソール（入谷式足底板）の調整',
+        '運動指導・ストレッチ',
+        'テーピング指導',
+        '痛みの評価・ケアプログラム',
+        '徒手的操作によるからだの調整'
+      ],
+      notes: [
+        '初回料は、初回来院時にのみいただきます。',
+        '施術のみの場合は駐車場サービス券はお渡ししておりませんので、ご了承くださいませ。'
+      ]
+    }
+  };
+
+  const menuOverlay = document.getElementById('menuModalOverlay');
+  const menuCloseBtn = document.getElementById('menuModalClose');
+
+  function openMenuModal(key) {
+    const d = menuData[key];
+    if (!d) return;
+
+    document.getElementById('menuModalImg').src = d.img;
+    document.getElementById('menuModalImg').alt = d.title;
+    document.getElementById('menuModalTag').textContent = d.tag;
+    document.getElementById('menuModalTitle').textContent = d.title;
+
+    // Prices
+    let priceHtml = '';
+    d.prices.forEach((p, i) => {
+      if (i > 0) priceHtml += '<div class="menu-modal__price-plus">+</div>';
+      priceHtml += `<div class="menu-modal__price-item">
+        <span class="menu-modal__price-label">${p.label}</span>
+        <div class="menu-modal__price-value">${p.value}<span>${p.unit}</span></div>
+      </div>`;
+    });
+    document.getElementById('menuModalPriceBlock').innerHTML = priceHtml;
+
+    // Description
+    const descHtml = d.desc.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    document.getElementById('menuModalDesc').innerHTML = descHtml;
+
+    // Details (includes + notes)
+    let detailsHtml = '<h4 class="menu-modal__section-title">INCLUDES</h4>';
+    detailsHtml += '<ul class="menu-modal__includes">' +
+      d.includes.map(item => `<li>${item}</li>`).join('') + '</ul>';
+
+    if (d.notes && d.notes.length) {
+      detailsHtml += '<div class="menu-modal__note">' +
+        d.notes.map(n => `<p>※ ${n}</p>`).join('') + '</div>';
+    }
+
+    document.getElementById('menuModalDetails').innerHTML = detailsHtml;
+
+    menuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenuModal() {
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-menu]').forEach(btn => {
+    btn.addEventListener('click', () => openMenuModal(btn.dataset.menu));
+  });
+  if (menuCloseBtn) menuCloseBtn.addEventListener('click', closeMenuModal);
+  if (menuOverlay) {
+    menuOverlay.addEventListener('click', (e) => {
+      if (e.target === menuOverlay) closeMenuModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menuOverlay && menuOverlay.classList.contains('active')) closeMenuModal();
+  });
+
+  /* --- Contact Form (mailto) --- */
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cf-name').value.trim();
+      const email = document.getElementById('cf-email').value.trim();
+      const type = document.getElementById('cf-type').value;
+      const message = document.getElementById('cf-message').value.trim();
+
+      const subject = `【お問い合わせ】${type}`;
+      const body = [
+        `お名前: ${name}`,
+        `メールアドレス: ${email}`,
+        `種別: ${type}`,
+        '',
+        '【お問い合わせ内容】',
+        message,
+        '',
+        '---',
+        'コンディション・ラボ HPからのお問い合わせ'
+      ].join('\n');
+
+      const mailto = `mailto:conditionlabo@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    });
+  }
+
+  /* --- Contact Modal --- */
+  const contactOverlay = document.getElementById('contactModalOverlay');
+  const openContactBtn = document.getElementById('openContactModal');
+  const closeContactBtn = document.getElementById('contactModalClose');
+
+  function openContactModal(e) {
+    if (e) e.preventDefault();
+    contactOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContactModal() {
+    contactOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  if (openContactBtn) openContactBtn.addEventListener('click', openContactModal);
+  if (closeContactBtn) closeContactBtn.addEventListener('click', closeContactModal);
+  if (contactOverlay) {
+    contactOverlay.addEventListener('click', (e) => {
+      if (e.target === contactOverlay) closeContactModal();
+    });
+  }
+
+  /* --- Company Modal --- */
+  const companyOverlay = document.getElementById('companyModalOverlay');
+  const openCompanyBtn = document.getElementById('openCompanyModal');
+  const closeCompanyBtn = document.getElementById('companyModalClose');
+
+  function openCompanyModal(e) {
+    if (e) e.preventDefault();
+    companyOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCompanyModal() {
+    companyOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  if (openCompanyBtn) openCompanyBtn.addEventListener('click', openCompanyModal);
+  if (closeCompanyBtn) closeCompanyBtn.addEventListener('click', closeCompanyModal);
+  if (companyOverlay) {
+    companyOverlay.addEventListener('click', (e) => {
+      if (e.target === companyOverlay) closeCompanyModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (contactOverlay && contactOverlay.classList.contains('active')) closeContactModal();
+      if (companyOverlay && companyOverlay.classList.contains('active')) closeCompanyModal();
+    }
+  });
+
+  /* --- Voice Modal --- */
+  const voiceOverlay = document.getElementById('voiceModalOverlay');
+  const openVoiceBtn = document.getElementById('openVoiceModal');
+  const closeVoiceBtn = document.getElementById('voiceModalClose');
+
+  function openVoiceModal() {
+    voiceOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVoiceModal() {
+    voiceOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (openVoiceBtn) openVoiceBtn.addEventListener('click', openVoiceModal);
+  if (closeVoiceBtn) closeVoiceBtn.addEventListener('click', closeVoiceModal);
+  if (voiceOverlay) {
+    voiceOverlay.addEventListener('click', (e) => {
+      if (e.target === voiceOverlay) closeVoiceModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && voiceOverlay && voiceOverlay.classList.contains('active')) closeVoiceModal();
+  });
+
+  /* --- Books All Modal --- */
+  const booksOverlay = document.getElementById('booksModalOverlay');
+  const openBooksBtn = document.getElementById('openBooksModal');
+  const closeBooksBtn = document.getElementById('booksModalClose');
+
+  function openBooksModal() {
+    booksOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBooksModal() {
+    booksOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (openBooksBtn) openBooksBtn.addEventListener('click', openBooksModal);
+  if (closeBooksBtn) closeBooksBtn.addEventListener('click', closeBooksModal);
+  if (booksOverlay) {
+    booksOverlay.addEventListener('click', (e) => {
+      if (e.target === booksOverlay) closeBooksModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && booksOverlay && booksOverlay.classList.contains('active')) closeBooksModal();
+  });
+
+  /* --- Walkguide Modal --- */
+  const walkguideOverlay = document.getElementById('walkguideOverlay');
+  const openWalkguideBtn = document.getElementById('openWalkguide');
+  const closeWalkguideBtn = document.getElementById('walkguideClose');
+
+  function openWalkguide() {
+    walkguideOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeWalkguide() {
+    walkguideOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (openWalkguideBtn) openWalkguideBtn.addEventListener('click', openWalkguide);
+  if (closeWalkguideBtn) closeWalkguideBtn.addEventListener('click', closeWalkguide);
+  if (walkguideOverlay) {
+    walkguideOverlay.addEventListener('click', (e) => {
+      if (e.target === walkguideOverlay) closeWalkguide();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && walkguideOverlay && walkguideOverlay.classList.contains('active')) closeWalkguide();
+  });
+
+  /* --- Fixed CTA: show after scrolling past hero --- */
+  const fixedCta = document.getElementById('fixedCta');
+  if (fixedCta) {
+    window.addEventListener('scroll', () => {
+      fixedCta.style.transform = window.scrollY > window.innerHeight
+        ? 'translateY(0)' : 'translateY(100%)';
+    }, { passive: true });
+    fixedCta.style.transition = 'transform 0.3s ease';
+    fixedCta.style.transform = 'translateY(100%)';
+  }
+
+});
