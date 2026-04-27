@@ -600,25 +600,22 @@ document.addEventListener('DOMContentLoaded', () => {
     return { subject, body };
   }
 
+  function submitToGmail() {
+    const p = buildContactPayload();
+    if (!p) return;
+    const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=conditionlabo@gmail.com&su=${encodeURIComponent(p.subject)}&body=${encodeURIComponent(p.body)}`;
+    // Gmail web URL opens in new tab — works on every device with a browser
+    window.open(gmail, '_blank', 'noopener');
+  }
+
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const p = buildContactPayload();
-      if (!p) return;
-      const mailto = `mailto:conditionlabo@gmail.com?subject=${encodeURIComponent(p.subject)}&body=${encodeURIComponent(p.body)}`;
-      // mailto: must use same-window navigation to trigger OS protocol handler
-      window.location.href = mailto;
+      submitToGmail();
     });
   }
-
   if (gmailBtn) {
-    gmailBtn.addEventListener('click', () => {
-      const p = buildContactPayload();
-      if (!p) return;
-      const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=conditionlabo@gmail.com&su=${encodeURIComponent(p.subject)}&body=${encodeURIComponent(p.body)}`;
-      // Gmail web URL opens in new tab
-      window.open(gmail, '_blank', 'noopener');
-    });
+    gmailBtn.addEventListener('click', submitToGmail);
   }
 
   /* --- Contact Modal --- */

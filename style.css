@@ -1261,7 +1261,7 @@ a { text-decoration: none; color: inherit; }
   padding-right: 32px;
 }
 .contact-form__actions {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px;
+  margin-top: 4px;
 }
 .contact-form__submit {
   width: 100%; padding: 12px 16px;
