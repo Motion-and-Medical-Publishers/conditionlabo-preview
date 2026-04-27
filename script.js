@@ -112,27 +112,40 @@ document.addEventListener('DOMContentLoaded', () => {
         '平成29年3月: 26年間勤務した関東労災病院を退職',
         '平成29年4月: コンディション・ラボを開業。同時に(株)運動と医学の出版社 代表取締役社長に就任'
       ],
-      books: [
+      authored: [
         '「ねこ背病 放置する人から老いていく」運動と医学の出版社 2025/8',
         '「健康寿命のためのからだのトリセツ」2025/5',
         '「徒手療法ガイドブック」2024/12',
         '「園部式脚の痛み・しびれ改善メソッド」2024/10',
         '「ひざ痛探偵 謎はすべて解けた！」2024/8',
-        '「園部式足底筋膜炎改善メソッド（彩図社）」2024/7',
+        '「園部式足底筋膜炎改善メソッド」彩図社 2024/7',
         '「園部式首の痛み改善メソッド」2024/6',
         '「一流の臨床思考」2024/3',
-        '「園部式脊柱管狭窄症改善メソッド（彩図社）」2023/8',
+        '「園部式脊柱管狭窄症改善メソッド」彩図社 2023/8',
         '「園部式歩行改善メソッド」2023/4',
-        '「園部式ひざ痛改善メソッド(彩図社)」2023/1',
-        '「スポーツ外傷・障害に対する術後のリハビリテーション改訂第3版」2022/10',
-        '「臀筋ほぐし(PHP研究所)」2022/8',
+        '「園部式ひざ痛改善メソッド」彩図社 2023/1',
+        '「スポーツ外傷・障害に対する術後のリハビリテーション 改訂第3版」2022/10',
+        '「臀筋ほぐし」PHP研究所 2022/8',
         '「園部俊晴の臨床『膝関節』」2021/2',
-        '「入谷誠の理学療法 評価と治療の実際」2020/5',
-        '「つらいひざ痛が1分でよくなる! ひざ下リリース」2019/10',
-        '「お尻の痛み・しびれ 1分でよくなる 最新最強」2020/2',
+        '「入谷誠の理学療法 評価と治療の実際」運動と医学の出版社 2020/5',
+        '「お尻の痛み・しびれ 1分でよくなる 最新最強」わかさ夢ムック 2020/2',
+        '「つらいひざ痛が1分でよくなる！ ひざ下リリース」わかさ夢MOOK 2019/10',
         '「リハビリの先生が教える！健康寿命を10年延ばすからだのつくり方」2017/2',
-        '「効果的な文章の書き方 入門講座」2013/3'
-      ]
+        '「効果的な文章の書き方 入門講座」運動と医学の出版社 2013/3'
+      ],
+      edited: [
+        '「スポーツ外傷・障害に対する術後のリハビリテーション」運動と医学の出版社 2010（内山英司・岩噌弘志監修、園部俊晴・他著）',
+        '「体幹と骨盤の評価と運動療法」運動と医学の出版社 2018（鈴木俊明監修、大沼俊博・園部俊晴編）'
+      ],
+      papers: '理学療法・スポーツ医学領域の論文・レビュー多数（外反母趾、足関節捻挫、運動連鎖、動作分析、変形性膝関節症など 40編以上）',
+      awards: [
+        '平成18年6月：秩父宮スポーツ医科学賞 奨励賞'
+      ],
+      media: {
+        'TV': '「ニースの森（TBS）」「発掘あるある大辞典（フジテレビ）」「バースデイ（TBS）」「助けて！きわめびと（NHK総合）」「なないろ日和（テレ東）」「くりぃむしちゅーのハナタカ！優越館（テレ朝）」 ほか',
+        '新聞・雑誌': '朝日新聞、読売新聞、報知新聞、日経ヘルスプルミエ、わかさ、壮快、アルバ、週刊ポスト ほか'
+      },
+      lectures: '日本理学療法士協会全国研修会、神奈川・熊本・京都・沖縄・静岡・大阪・和歌山など各都道府県理学療法士協会、川崎市整形外科会など多数。文京学院大学（大学院）特別講師、昭和大学保健医療学部 客員講師。'
     },
     tsuchiya: {
       name: '土屋 元明',
@@ -318,9 +331,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (d.edited && d.edited.length) {
-      html += `<h4 class="staff-modal__section-title">編集</h4>`;
+      html += `<h4 class="staff-modal__section-title">編集・監修</h4>`;
       html += '<ul class="staff-modal__books">' +
         d.edited.map(b => `<li>${b}</li>`).join('') + '</ul>';
+    }
+
+    if (d.papers) {
+      html += `<h4 class="staff-modal__section-title">論文・レビュー</h4>`;
+      html += `<p class="staff-modal__qualifications">${d.papers}</p>`;
+    }
+
+    if (d.awards && d.awards.length) {
+      html += `<h4 class="staff-modal__section-title">受賞</h4>`;
+      html += '<ul class="staff-modal__books">' +
+        d.awards.map(a => `<li>${a}</li>`).join('') + '</ul>';
+    }
+
+    if (d.media) {
+      html += `<h4 class="staff-modal__section-title">メディア出演</h4>`;
+      html += '<dl class="staff-modal__meta" style="display:block;">';
+      for (const [k, v] of Object.entries(d.media)) {
+        html += `<dt style="display:block;margin-top:8px;">${k}</dt><dd style="display:block;font-size:13px;line-height:1.8;color:var(--text-light);">${v}</dd>`;
+      }
+      html += '</dl>';
+    }
+
+    if (d.lectures) {
+      html += `<h4 class="staff-modal__section-title">講演実績</h4>`;
+      html += `<p class="staff-modal__qualifications">${d.lectures}</p>`;
     }
 
     document.getElementById('staffModalContent').innerHTML = html;
