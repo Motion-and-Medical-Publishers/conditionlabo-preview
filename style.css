@@ -42,10 +42,20 @@ a { text-decoration: none; color: inherit; }
   background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
   box-shadow: 0 1px 20px rgba(0,0,0,0.06); padding: 14px 48px;
 }
-.header__logo { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--white); letter-spacing: 0.06em; transition: color 0.4s; }
-.header.scrolled .header__logo { color: var(--green-dark); }
-.header__logo small { display: block; font-family: var(--en); font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.5); letter-spacing: 0.15em; transition: color 0.4s; }
-.header.scrolled .header__logo small { color: var(--text-muted); }
+.header__logo {
+  display: flex; align-items: center; text-decoration: none;
+  transition: opacity 0.3s;
+}
+.header__logo:hover { opacity: 0.75; }
+.header__logo-img {
+  display: block; height: 36px; width: auto;
+  /* ヒーロー上ではロゴを白系に表示するためのフィルター */
+  filter: brightness(0) invert(1);
+  transition: filter 0.4s;
+}
+.header.scrolled .header__logo-img {
+  filter: none;
+}
 .header__nav { display: flex; gap: 24px; }
 .header__nav a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; color: rgba(255,255,255,0.6); transition: color 0.3s; }
 .header.scrolled .header__nav a { color: var(--text-light); }
@@ -1442,6 +1452,7 @@ a { text-decoration: none; color: inherit; }
   .header__nav { display: none; }
   .header__hamburger { display: block; }
   .header__cta { display: none; }
+  .header__logo-img { height: 28px; }
   .hero__content { left: 40px; bottom: 100px; }
   .hero__title { font-size: 34px; }
   .hero__split { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); opacity: 0.5; }
