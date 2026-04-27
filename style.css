@@ -167,9 +167,16 @@ a { text-decoration: none; color: inherit; }
 .intro-block {
   max-width: 720px; margin: 0 auto; text-align: center;
 }
+.intro-block__emblem {
+  display: block; width: 64px; height: 64px;
+  margin: 0 auto 24px; opacity: 0.9;
+}
 .intro-block__lead {
   font-family: var(--serif); font-size: 26px; font-weight: 700;
   line-height: 1.7; color: var(--text); margin-bottom: 12px;
+}
+@media (max-width: 768px) {
+  .intro-block__emblem { width: 52px; height: 52px; margin-bottom: 16px; }
 }
 .intro-block__motto {
   font-family: var(--serif); font-size: 14px; font-weight: 400;
