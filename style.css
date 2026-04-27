@@ -1359,6 +1359,11 @@ a { text-decoration: none; color: inherit; }
   content: ''; position: absolute; left: 4px; top: 12px;
   width: 6px; height: 1px; background: var(--green-accent);
 }
+.staff-modal__more-note {
+  font-size: 12px; color: var(--text-muted);
+  text-align: right; margin-top: 8px;
+  font-style: italic;
+}
 .staff-modal__papers {
   margin-top: 4px;
 }

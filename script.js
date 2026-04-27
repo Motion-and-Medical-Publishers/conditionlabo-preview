@@ -135,10 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
         '「リハビリの先生が教える！健康寿命を10年延ばすからだのつくり方」2017/2',
         '「効果的な文章の書き方 入門講座」運動と医学の出版社 2013/3'
       ],
+      authoredMore: true,
       edited: [
         '「スポーツ外傷・障害に対する術後のリハビリテーション」運動と医学の出版社 2010（内山英司・岩噌弘志監修、園部俊晴・他著）',
         '「体幹と骨盤の評価と運動療法」運動と医学の出版社 2018（鈴木俊明監修、大沼俊博・園部俊晴編）'
       ],
+      editedMore: true,
       papers: [
         '園部俊晴：外反母趾について．神奈川県理学療法士会会報20：23-27，1993．',
         '園部俊晴、入谷誠ほか：外反母趾．臨床スポーツ医学10，臨時増刊号:391-394，1993．',
@@ -189,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '園部俊晴：セラピストの手の使い方 治療技術の向上のために スポーツメディスン 31(4): 1-1, 2019.',
         '高橋弦・園部俊晴：腰痛の原因と治療．運動と医学の出版社2019．'
       ],
+      papersMore: true,
       awards: [
         '平成18年6月：秩父宮スポーツ医科学賞 奨励賞'
       ],
@@ -379,12 +382,18 @@ document.addEventListener('DOMContentLoaded', () => {
       html += `<h4 class="staff-modal__section-title">著書</h4>`;
       html += '<ul class="staff-modal__books">' +
         d.authored.map(b => `<li>${b}</li>`).join('') + '</ul>';
+      if (d.authoredMore) {
+        html += `<p class="staff-modal__more-note">その他多数</p>`;
+      }
     }
 
     if (d.edited && d.edited.length) {
       html += `<h4 class="staff-modal__section-title">編集・監修</h4>`;
       html += '<ul class="staff-modal__books">' +
         d.edited.map(b => `<li>${b}</li>`).join('') + '</ul>';
+      if (d.editedMore) {
+        html += `<p class="staff-modal__more-note">その他多数</p>`;
+      }
     }
 
     if (d.papers) {
@@ -393,6 +402,9 @@ document.addEventListener('DOMContentLoaded', () => {
         html += `<details class="staff-modal__papers"><summary>全${d.papers.length}編を表示</summary>`;
         html += '<ol class="staff-modal__papers-list">' +
           d.papers.map(p => `<li>${p}</li>`).join('') + '</ol>';
+        if (d.papersMore) {
+          html += `<p class="staff-modal__more-note">その他多数</p>`;
+        }
         html += '</details>';
       } else {
         html += `<h4 class="staff-modal__section-title">論文・レビュー</h4>`;
