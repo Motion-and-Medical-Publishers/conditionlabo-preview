@@ -672,39 +672,15 @@
           <dt>診療時間</dt><dd>午前 8:30〜12:00 / 午後 13:00〜18:00<br>（完全予約制）</dd>
           <dt>定休日</dt><dd>土曜・日曜・祝日</dd>
         </dl>
-        <div class="schedule-table">
-          <h4 class="schedule-table__title">曜日別 担当スタッフ</h4>
-          <table class="schedule-table__grid">
-            <thead>
-              <tr>
-                <th></th>
-                <th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th>日</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>午前<br><span>8:30〜12:00</span></th>
-                <td>園部<br>若林<br>茂木</td>
-                <td>園部<br>相馬</td>
-                <td>若林</td>
-                <td>園部<br>土屋<br>相馬</td>
-                <td>園部<br>土屋<br>茂木</td>
-                <td class="schedule-table__off">×</td>
-                <td class="schedule-table__off">×</td>
-              </tr>
-              <tr>
-                <th>午後<br><span>13:00〜18:00</span></th>
-                <td>園部<br>若林<br>茂木</td>
-                <td>相馬</td>
-                <td>若林</td>
-                <td>園部<br>土屋<br>相馬</td>
-                <td>園部<br>土屋<br>茂木</td>
-                <td class="schedule-table__off">×</td>
-                <td class="schedule-table__off">×</td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="schedule-table__note">※ 初回はお問い合わせから。2回目以降はネット予約が利用可能です。予約変更は電話にて承ります。</p>
+        <div class="schedule-list">
+          <h4 class="schedule-list__title">曜日別 担当スタッフ</h4>
+          <div class="schedule-day"><span class="schedule-day__name">月</span><div class="schedule-day__shifts"><div class="schedule-shift"><span class="schedule-shift__label">午前</span><span class="schedule-shift__staff">園部・若林・茂木</span></div><div class="schedule-shift"><span class="schedule-shift__label">午後</span><span class="schedule-shift__staff">園部・若林・茂木</span></div></div></div>
+          <div class="schedule-day"><span class="schedule-day__name">火</span><div class="schedule-day__shifts"><div class="schedule-shift"><span class="schedule-shift__label">午前</span><span class="schedule-shift__staff">園部・相馬</span></div><div class="schedule-shift"><span class="schedule-shift__label">午後</span><span class="schedule-shift__staff">相馬</span></div></div></div>
+          <div class="schedule-day"><span class="schedule-day__name">水</span><div class="schedule-day__shifts"><div class="schedule-shift"><span class="schedule-shift__label">午前</span><span class="schedule-shift__staff">若林</span></div><div class="schedule-shift"><span class="schedule-shift__label">午後</span><span class="schedule-shift__staff">若林</span></div></div></div>
+          <div class="schedule-day"><span class="schedule-day__name">木</span><div class="schedule-day__shifts"><div class="schedule-shift"><span class="schedule-shift__label">午前</span><span class="schedule-shift__staff">園部・土屋・相馬</span></div><div class="schedule-shift"><span class="schedule-shift__label">午後</span><span class="schedule-shift__staff">園部・土屋・相馬</span></div></div></div>
+          <div class="schedule-day"><span class="schedule-day__name">金</span><div class="schedule-day__shifts"><div class="schedule-shift"><span class="schedule-shift__label">午前</span><span class="schedule-shift__staff">園部・土屋・茂木</span></div><div class="schedule-shift"><span class="schedule-shift__label">午後</span><span class="schedule-shift__staff">園部・土屋・茂木</span></div></div></div>
+          <div class="schedule-day schedule-day--off"><span class="schedule-day__name">土・日・祝</span><div class="schedule-day__shifts"><span class="schedule-shift__off">休診</span></div></div>
+          <p class="schedule-list__note">※ 初回はお問い合わせから。2回目以降はネット予約が利用可能です。予約変更は電話にて承ります。</p>
         </div>
         <div class="access-buttons">
           <a href="https://www.google.com/maps/dir/?api=1&destination=35.5707655,139.5534988&destination_place_id=ChIJ___vgZL2GGAREECIkXgbIzo" target="_blank" rel="noopener" class="btn-directions">
