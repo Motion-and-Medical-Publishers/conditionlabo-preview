@@ -40,7 +40,9 @@ a { text-decoration: none; color: inherit; }
 }
 .header.scrolled {
   background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
-  box-shadow: 0 1px 20px rgba(0,0,0,0.06); padding: 14px 48px;
+  box-shadow: 0 1px 20px rgba(0,0,0,0.06);
+  padding-top: 14px; padding-bottom: 14px;
+  /* 横padding は .header or media query から継承して左右シフトを防ぐ */
 }
 .header__logo {
   display: flex; align-items: center; text-decoration: none;
