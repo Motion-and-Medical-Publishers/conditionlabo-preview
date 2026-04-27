@@ -1356,7 +1356,8 @@ a { text-decoration: none; color: inherit; }
   padding: 3px 0 3px 20px; position: relative;
 }
 .staff-modal__books li::before {
-  content: '📕'; position: absolute; left: 0; top: 3px; font-size: 12px;
+  content: ''; position: absolute; left: 4px; top: 12px;
+  width: 6px; height: 1px; background: var(--green-accent);
 }
 .staff-modal__qualifications {
   font-size: 13px; line-height: 1.8; color: var(--text-light);
