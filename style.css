@@ -48,7 +48,7 @@ a { text-decoration: none; color: inherit; }
 }
 .header__logo:hover { opacity: 0.75; }
 .header__logo-img {
-  display: block; height: 36px; width: auto;
+  display: block; height: 32px; width: auto; max-width: 240px;
   /* ヒーロー上ではロゴを白系に表示するためのフィルター */
   filter: brightness(0) invert(1);
   transition: filter 0.4s;
@@ -1085,8 +1085,15 @@ a { text-decoration: none; color: inherit; }
    ======================================== */
 .footer { background: var(--green-dark); color: rgba(255,255,255,0.6); padding: 60px 0 28px; }
 .footer__inner { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; }
-.footer__logo { font-family: var(--serif); font-size: 20px; color: var(--white); margin-bottom: 4px; }
+.footer__logo-img {
+  display: block; height: 36px; width: auto; max-width: 260px;
+  margin-bottom: 12px;
+  filter: brightness(0) invert(1); opacity: 0.9;
+}
 .footer__sub { font-family: var(--en); font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.12em; }
+@media (max-width: 768px) {
+  .footer__logo-img { height: 30px; max-width: 220px; }
+}
 .footer__info { font-size: 13px; margin-top: 12px; line-height: 1.8; }
 .footer__info a { color: rgba(255,255,255,0.7); }
 .footer__nav { display: flex; flex-wrap: wrap; gap: 16px; }
@@ -1452,7 +1459,7 @@ a { text-decoration: none; color: inherit; }
   .header__nav { display: none; }
   .header__hamburger { display: block; }
   .header__cta { display: none; }
-  .header__logo-img { height: 28px; }
+  .header__logo-img { height: 26px; max-width: 180px; }
   .hero__content { left: 40px; bottom: 100px; }
   .hero__title { font-size: 34px; }
   .hero__split { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); opacity: 0.5; }
