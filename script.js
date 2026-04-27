@@ -569,31 +569,65 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && menuOverlay && menuOverlay.classList.contains('active')) closeMenuModal();
   });
 
-  /* --- Contact Form (mailto) --- */
+  /* --- Contact Form (mailto / Gmail) --- */
   const contactForm = document.getElementById('contactForm');
+  const gmailBtn = document.getElementById('contactGmailBtn');
+
+  function buildContactPayload() {
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const type = document.getElementById('cf-type').value;
+    const message = document.getElementById('cf-message').value.trim();
+
+    if (!name || !email || !type || !message) {
+      contactForm.reportValidity();
+      return null;
+    }
+
+    const subject = `【お問い合わせ】${type}`;
+    const body = [
+      `お名前: ${name}`,
+      `メールアドレス: ${email}`,
+      `種別: ${type}`,
+      '',
+      '【お問い合わせ内容】',
+      message,
+      '',
+      '---',
+      'コンディション・ラボ HPからのお問い合わせ'
+    ].join('\n');
+
+    return { subject, body };
+  }
+
+  function openMailLink(url) {
+    // Reliable cross-browser way to open mailto / external URL
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('cf-name').value.trim();
-      const email = document.getElementById('cf-email').value.trim();
-      const type = document.getElementById('cf-type').value;
-      const message = document.getElementById('cf-message').value.trim();
+      const p = buildContactPayload();
+      if (!p) return;
+      const mailto = `mailto:conditionlabo@gmail.com?subject=${encodeURIComponent(p.subject)}&body=${encodeURIComponent(p.body)}`;
+      openMailLink(mailto);
+    });
+  }
 
-      const subject = `【お問い合わせ】${type}`;
-      const body = [
-        `お名前: ${name}`,
-        `メールアドレス: ${email}`,
-        `種別: ${type}`,
-        '',
-        '【お問い合わせ内容】',
-        message,
-        '',
-        '---',
-        'コンディション・ラボ HPからのお問い合わせ'
-      ].join('\n');
-
-      const mailto = `mailto:conditionlabo@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailto;
+  if (gmailBtn) {
+    gmailBtn.addEventListener('click', () => {
+      const p = buildContactPayload();
+      if (!p) return;
+      const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=conditionlabo@gmail.com&su=${encodeURIComponent(p.subject)}&body=${encodeURIComponent(p.body)}`;
+      openMailLink(gmail);
     });
   }
 

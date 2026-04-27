@@ -781,10 +781,19 @@
         </div>
       </div>
 
+      <div class="contact-method">
+        <div class="contact-method__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="contact-method__body">
+          <p class="contact-method__label">メールでのお問い合わせ</p>
+          <a href="mailto:conditionlabo@gmail.com" class="contact-method__value">conditionlabo@gmail.com</a>
+          <p class="contact-method__note">診療中はお電話に出ることが難しいため、基本的には下記フォームよりご相談ください。</p>
+        </div>
+      </div>
+
       <!-- Contact Form -->
       <div class="contact-form-wrap">
-        <h4 class="contact-form__heading">フォームからのお問い合わせ</h4>
-        <p class="contact-form__lead">診療中はお電話に出ることが難しいため、基本的には下記フォームよりご相談ください。<br>ご入力いただいた内容は<strong>conditionlabo@gmail.com</strong> 宛に送信されます。</p>
         <form class="contact-form" id="contactForm">
           <div class="contact-form__field">
             <label for="cf-name">お名前 <span class="contact-form__req">必須</span></label>
@@ -808,10 +817,11 @@
             <label for="cf-message">お問い合わせ内容 <span class="contact-form__req">必須</span></label>
             <textarea id="cf-message" name="message" rows="6" required></textarea>
           </div>
-          <button type="submit" class="contact-form__submit">
-            送信する
-          </button>
-          <p class="contact-form__note">※ 送信ボタンを押すと、ご入力内容が記載されたメールがお使いのメーラーで起動します。起動したメールをそのまま送信してください。</p>
+          <div class="contact-form__actions">
+            <button type="submit" class="contact-form__submit" data-mode="mail">メーラーで送信</button>
+            <button type="button" class="contact-form__submit contact-form__submit--alt" id="contactGmailBtn">Gmailで送信</button>
+          </div>
+          <p class="contact-form__note">※ 「メーラーで送信」を押すと、ご入力内容が記載されたメールがお使いのメーラー（Outlook、Apple Mail等）で起動します。Gmailをお使いの方は「Gmailで送信」をお選びください。送信先：conditionlabo@gmail.com</p>
         </form>
 
         <div class="contact-note">
