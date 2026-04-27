@@ -600,25 +600,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return { subject, body };
   }
 
-  function openMailLink(url) {
-    // Reliable cross-browser way to open mailto / external URL
-    const a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const p = buildContactPayload();
       if (!p) return;
       const mailto = `mailto:conditionlabo@gmail.com?subject=${encodeURIComponent(p.subject)}&body=${encodeURIComponent(p.body)}`;
-      openMailLink(mailto);
+      // mailto: must use same-window navigation to trigger OS protocol handler
+      window.location.href = mailto;
     });
   }
 
@@ -627,7 +616,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const p = buildContactPayload();
       if (!p) return;
       const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=conditionlabo@gmail.com&su=${encodeURIComponent(p.subject)}&body=${encodeURIComponent(p.body)}`;
-      openMailLink(gmail);
+      // Gmail web URL opens in new tab
+      window.open(gmail, '_blank', 'noopener');
     });
   }
 
