@@ -1359,6 +1359,31 @@ a { text-decoration: none; color: inherit; }
   content: ''; position: absolute; left: 4px; top: 12px;
   width: 6px; height: 1px; background: var(--green-accent);
 }
+.staff-modal__papers {
+  margin-top: 4px;
+}
+.staff-modal__papers summary {
+  cursor: pointer; font-size: 12px; color: var(--green);
+  padding: 8px 12px; background: var(--green-pale);
+  border-radius: 4px; font-weight: 700;
+  list-style: none; user-select: none;
+  transition: background 0.2s;
+}
+.staff-modal__papers summary::-webkit-details-marker { display: none; }
+.staff-modal__papers summary::after {
+  content: '▼'; float: right; font-size: 10px;
+  transition: transform 0.2s;
+}
+.staff-modal__papers[open] summary::after { transform: rotate(180deg); }
+.staff-modal__papers summary:hover { background: var(--green-light); }
+.staff-modal__papers-list {
+  list-style: decimal inside; padding: 16px 8px 0;
+  max-height: 320px; overflow-y: auto;
+}
+.staff-modal__papers-list li {
+  font-size: 11px; line-height: 1.7; color: var(--text-light);
+  padding: 4px 0; padding-left: 4px;
+}
 .staff-modal__qualifications {
   font-size: 13px; line-height: 1.8; color: var(--text-light);
 }
