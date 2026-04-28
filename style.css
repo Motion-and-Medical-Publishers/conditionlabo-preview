@@ -1344,8 +1344,7 @@ a { text-decoration: none; color: inherit; }
    ======================================== */
 .fixed-cta {
   display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  background: var(--green); box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
 }
 .fixed-cta__btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
